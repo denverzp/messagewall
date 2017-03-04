@@ -55,7 +55,7 @@ class Controller
     }
 
     /**
-     * 
+     *
      * @param array $data
      * @param string $template
      * @return string

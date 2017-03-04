@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-
 use App\Engine\Controller;
 
 /**
@@ -10,10 +9,10 @@ use App\Engine\Controller;
  */
 class UserController extends Controller
 {
-	public function logout()
-	{
-		session_destroy();
+    public function logout()
+    {
+        session_destroy();
 
-		$this->redirect(HTTP_SERVER);
-	}
+        $this->redirect(HTTP_SERVER);
+    }
 }

@@ -41,7 +41,6 @@ class Route
 
         //Google auth
         if (true === array_key_exists('google', $this->request->get)) {
-
             if (true === array_key_exists('google_auth', $this->request->get)) {
                 $this->route = 'GoogleAuth@auth';
             }

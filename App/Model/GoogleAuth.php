@@ -25,18 +25,18 @@ class GoogleAuth extends Model
 //	    $client->setDeveloperKey($this->config->get('google_project_code')); //"studyoauth"
 
 
-	    $client->setApplicationName("StudyOAuth_site");
+        $client->setApplicationName("StudyOAuth_site");
 
         $client->setAuthConfig(DIR_ROOT . 'secret/client.apps.googleusercontent.com.json');
 
-	    $client->setDeveloperKey("studyoauth");
+        $client->setDeveloperKey("studyoauth");
 
         $client->addScope(Google_Service_Plus::PLUS_LOGIN);
         $client->addScope(Google_Service_Plus::PLUS_ME);
         $client->addScope(Google_Service_Plus::USERINFO_EMAIL);
         $client->addScope(Google_Service_Plus::USERINFO_PROFILE);
 
-	    return $client;
+        return $client;
     }
     
     /**
@@ -51,33 +51,32 @@ class GoogleAuth extends Model
         header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
     }
 
-	/**
-	 * Get userinfo from google+
-	 * @return mixed
-	 */
-	public function userinfo()
-	{
-		if(true === array_key_exists('auth_token', $this->session->data) && true === array_key_exists('access_token', $this->session->data['auth_token'])){
+    /**
+     * Get userinfo from google+
+     * @return mixed
+     */
+    public function userinfo()
+    {
+        if (true === array_key_exists('auth_token', $this->session->data) && true === array_key_exists('access_token', $this->session->data['auth_token'])) {
+            $client = $this->instance();
 
-			$client = $this->instance();
+            $client->setAccessToken($this->session->data['auth_token']['access_token']);
 
-			$client->setAccessToken($this->session->data['auth_token']['access_token']);
+            $userinfo = new Google_Service_Plus($client);
 
-			$userinfo = new Google_Service_Plus($client);
+            $info = $userinfo->people->get('me');
 
-			$info = $userinfo->people->get('me');
-
-			return [
-				'id'        => $info['id'],
-				'name'      => $info['displayName'],
-				'email'     => $info['modelData']['emails'][0]['value'],
-				'image'     => $info['modelData']['image']['url'],
-				'gender'    => $info['gender'],
-				'language'  => $info['language'],
-				'url'       => $info['url'],
-			];
-		}
-	}
+            return [
+                'id'        => $info['id'],
+                'name'      => $info['displayName'],
+                'email'     => $info['modelData']['emails'][0]['value'],
+                'image'     => $info['modelData']['image']['url'],
+                'gender'    => $info['gender'],
+                'language'  => $info['language'],
+                'url'       => $info['url'],
+            ];
+        }
+    }
     
     /**
      * Handle the OAuth 2.0 server response

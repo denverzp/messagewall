@@ -12,92 +12,83 @@ use App\Model\User;
  */
 class GoogleAuthController extends Controller
 {
-	/**
-	 * User try auth wia Google
-	 */
-	public function auth()
-	{
-		//if already auth user try again auth - return to board
-		if (true === array_key_exists('auth', $this->session->data) && true === $this->session->data['auth']) {
+    /**
+     * User try auth wia Google
+     */
+    public function auth()
+    {
+        //if already auth user try again auth - return to board
+        if (true === array_key_exists('auth', $this->session->data) && true === $this->session->data['auth']) {
+            $this->redirect(HTTP_SERVER .'?wall');
 
-			$this->redirect(HTTP_SERVER .'?wall');
+        //auth wia google
+        } else {
+            $client = new GoogleAuth($this->registry);
 
-		//auth wia google
-		} else {
+            $client->auth();
+        }
+    }
 
-			$client = new GoogleAuth($this->registry);
+    /**
+     * return answer from OAuth 2.0 server
+     */
+    public function code_return()
+    {
+        if (true === array_key_exists('code', $this->request->get)) {
+            $client = new GoogleAuth($this->registry);
 
-			$client->auth();
-		}
-	}
+            //get access token from auth code
+            $token = $client->getToken($this->request->get['code']);
 
-	/**
-	 * return answer from OAuth 2.0 server
-	 */
-	public function code_return()
-	{
-		if(true === array_key_exists('code', $this->request->get)){
+            if (false !== $token) {
+                $this->session->data['auth'] = true;
+                $this->session->data['auth_token'] = $token;
 
-			$client = new GoogleAuth($this->registry);
+                //need get userinfo from google
+                $userinfo = $client->userinfo();
 
-			//get access token from auth code
-			$token = $client->getToken($this->request->get['code']);
+                if ($userinfo) {
+                    $this->get_user($userinfo);
+                }
+            }
+        }
 
-			if(false !== $token){
+        $this->redirect(HTTP_SERVER . '?wall');
+    }
 
-				$this->session->data['auth'] = true;
-				$this->session->data['auth_token'] = $token;
+    /**
+     * @param array $userinfo
+     */
+    private function get_user(array $userinfo)
+    {
+        $user = new User($this->registry);
 
-				//need get userinfo from google
-				$userinfo = $client->userinfo();
+        //if this user already isset in db - get user_id
+        $user_db = $user->get($userinfo['id']);
 
-				if($userinfo){
+        //otherwise - create new user and get user_id
+        if (0 === count($user_db)) {
+            $user_id = $user->create($userinfo);
 
-					$this->get_user($userinfo);
-				}
-			}
-		}
+            $this->session->data['userinfo'] = $userinfo;
 
-		$this->redirect(HTTP_SERVER . '?wall');
-	}
+            $this->session->data['user_id'] = $user_id;
+        } else {
+            $this->session->data['userinfo'] = $user_db;
 
-	/**
-	 * @param array $userinfo
-	 */
-	private function get_user(array $userinfo)
-	{
-		$user = new User($this->registry);
+            $this->session->data['user_id'] = $user_db['id'];
+        }
+    }
 
-		//if this user already isset in db - get user_id
-		$user_db = $user->get($userinfo['id']);
+    /**
+     * return error from OAuth 2.0 server
+     */
+    public function code_error()
+    {
+        if (true === array_key_exists('error', $this->request->get)) {
+            $this->session->data['error'] = $this->request->get['error'];
 
-		//otherwise - create new user and get user_id
-		if(0 === count($user_db)){
-
-			$user_id = $user->create($userinfo);
-
-			$this->session->data['userinfo'] = $userinfo;
-
-			$this->session->data['user_id'] = $user_id;
-
-		} else {
-
-			$this->session->data['userinfo'] = $user_db;
-
-			$this->session->data['user_id'] = $user_db['id'];
-		}
-	}
-
-	/**
-	 * return error from OAuth 2.0 server
-	 */
-	public function code_error()
-	{
-		if(true === array_key_exists('error', $this->request->get)){
-
-			$this->session->data['error'] = $this->request->get['error'];
-
-			$this->redirect(HTTP_SERVER . '?wall');
-		}
-	}
+            $this->redirect(HTTP_SERVER . '?wall');
+        }
+    }
 }

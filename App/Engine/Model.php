@@ -12,35 +12,35 @@ namespace App\Engine;
  */
 class Model
 {
-	/**
-	 * @var Registry
-	 */
-	protected $registry;
+    /**
+     * @var Registry
+     */
+    protected $registry;
 
-	/**
-	 * Model constructor.
-	 * @param Registry $registry
-	 */
-	public function __construct(Registry $registry)
-	{
-		$this->registry = $registry;
-	}
+    /**
+     * Model constructor.
+     * @param Registry $registry
+     */
+    public function __construct(Registry $registry)
+    {
+        $this->registry = $registry;
+    }
 
-	/**
-	 * @param $key
-	 * @return null
-	 */
-	public function __get($key)
-	{
-		return $this->registry->get($key);
-	}
+    /**
+     * @param $key
+     * @return null
+     */
+    public function __get($key)
+    {
+        return $this->registry->get($key);
+    }
 
-	/**
-	 * @param $key
-	 * @param $value
-	 */
-	public function __set($key, $value)
-	{
-		$this->registry->set($key, $value);
-	}
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
+    {
+        $this->registry->set($key, $value);
+    }
 }

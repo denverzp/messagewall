@@ -1,12 +1,12 @@
 <?php
 
 /**
- * 
+ *
  */
 namespace App\Engine;
 
 /**
- * 
+ *
  */
 class Front
 {
@@ -48,7 +48,6 @@ class Front
         $action = '';
 
         if (file_exists($file)) {
-
             require_once($file);
 
             $controller = new $class($this->registry);
@@ -60,9 +59,7 @@ class Front
 
                 trigger_error('Not callable class!');
             }
-
         } else {
-
             $this->log->write('Cannot find controller file! - ' . $file);
 
             trigger_error('Cannot find controller file!');

@@ -29,20 +29,25 @@
             <p class="text-muted">This is my board - and I'm going to write.</p>
           </div>
           <div class="col-sm-4 py-4">
-            <?php if (isset($auth) && true === $auth) { ?>
-            <?php if (isset($userinfo) && 0 !== count($userinfo)) { ?>
+            <?php if (isset($auth) && true === $auth) {
+    ?>
+            <?php if (isset($userinfo) && 0 !== count($userinfo)) {
+        ?>
 		            <div class="user-info">
 			            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
 			            <h5 class="text-white"><?php echo $userinfo['name'] ?></h5>
 		            </div>
-            <?php } ?>
+            <?php 
+    } ?>
 	            <p>
 		            <a class="text-white" href="<?php echo HTTP_SERVER ?>?logout">
 			            Logout
 			            <i class="fa fa-sign-out" aria-hidden="true"></i>
 		            </a>
 	            </p>
-            <?php } else { ?>
+            <?php 
+} else {
+    ?>
             <h4 class="text-white">Sign in</h4>
             <ul class="list-unstyled">
               <li><a href="<?php echo HTTP_SERVER ?>?google&google_auth" class="text-white">
@@ -62,7 +67,8 @@
               </li>
 -->
             </ul>
-            <?php } ?>
+            <?php 
+} ?>
           </div>
         </div>
       </div>

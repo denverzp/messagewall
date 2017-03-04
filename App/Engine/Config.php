@@ -7,35 +7,35 @@ namespace App\Engine;
  */
 class Config
 {
-	/**
-	 * @var array
-	 */
-	private $data = [];
+    /**
+     * @var array
+     */
+    private $data = [];
 
-	/**
-	 * @param $key
-	 * @return mixed|null
-	 */
-	public function get($key)
-	{
-		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
-	}
+    /**
+     * @param $key
+     * @return mixed|null
+     */
+    public function get($key)
+    {
+        return (isset($this->data[$key]) ? $this->data[$key] : null);
+    }
 
-	/**
-	 * @param $key
-	 * @param $value
-	 */
-	public function set($key, $value)
-	{
-		$this->data[$key] = $value;
-	}
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function set($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
 
-	/**
-	 * @param $key
-	 * @return bool
-	 */
-	public function has($key)
-	{
-		return isset($this->data[$key]);
-	}
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        return isset($this->data[$key]);
+    }
 }
