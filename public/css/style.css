@@ -14,9 +14,11 @@ body {
 footer {
     flex-grow: 0;
 }
+
 .album {
     flex-grow: 1;
 }
+
 .navbar {
     margin-bottom: 0;
 }
@@ -41,13 +43,13 @@ footer {
 }
 
 .album {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    position: relative;
+    padding: 1rem 0;
     background-color: #f7f7f7;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .card {
@@ -81,4 +83,38 @@ footer p {
 /*social*/
 .fa.fa-google-plus {
     color: #C53929;
+}
+
+/* wall */
+.wall-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+/* form */
+#form {
+    background: rgba(255,255,255,1);
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    border: 0.2rem solid #e8e8e8;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.6s;
+    z-index: 2;
+}
+
+.shadow {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(255,255,255,0.7);
+    transition: all 0.5s ease ;
 }
