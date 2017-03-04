@@ -7,32 +7,35 @@ namespace App\Engine;
  */
 class Registry
 {
-	/**
-	 * @var array
-	 */
-	private $data = array();
+    /**
+     * @var array
+     */
+    private $data = array();
 
-	/**
-	 * @param $key
-	 * @return null
-	 */
-	public function get($key) {
-		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
-	}
+    /**
+     * @param $key
+     * @return null
+     */
+    public function get($key)
+    {
+        return (isset($this->data[$key]) ? $this->data[$key] : null);
+    }
 
-	/**
-	 * @param $key
-	 * @param $value
-	 */
-	public function set($key, $value) {
-		$this->data[$key] = $value;
-	}
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function set($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
 
-	/**
-	 * @param $key
-	 * @return bool
-	 */
-	public function has($key) {
-		return isset($this->data[$key]);
-	}
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        return isset($this->data[$key]);
+    }
 }

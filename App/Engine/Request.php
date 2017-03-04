@@ -7,44 +7,44 @@ namespace App\Engine;
  */
 class Request
 {
-	/**
-	 * @var array
-	 */
-	public $get = [];
+    /**
+     * @var array
+     */
+    public $get = [];
 
-	/**
-	 * @var array
-	 */
-	public $post = [];
+    /**
+     * @var array
+     */
+    public $post = [];
 
-	/**
-	 * @var array
-	 */
-	public $cookie = [];
+    /**
+     * @var array
+     */
+    public $cookie = [];
 
-	/**
-	 * @var array
-	 */
-	public $files = [];
+    /**
+     * @var array
+     */
+    public $files = [];
 
-	/**
-	 * @var array
-	 */
-	public $server = [];
+    /**
+     * @var array
+     */
+    public $server = [];
 
-	/**
-	 * Request constructor.
-	 */
-	public function __construct()
-	{
-		$this->get = $_GET;
+    /**
+     * Request constructor.
+     */
+    public function __construct()
+    {
+        $this->get = $_GET;
 
-		$this->post = $_POST;
+        $this->post = $_POST;
 
-		$this->cookie = $_COOKIE;
+        $this->cookie = $_COOKIE;
 
-		$this->files = $_FILES;
+        $this->files = $_FILES;
 
-		$this->server = $_SERVER;
-	}
+        $this->server = $_SERVER;
+    }
 }

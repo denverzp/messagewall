@@ -7,7 +7,7 @@
  */
 function errorExceptionHandler($exception)
 {
-	errorHandler(E_ERROR, $exception->getMessage(), $exception->getFile(), $exception->getLine());
+    errorHandler(E_ERROR, $exception->getMessage(), $exception->getFile(), $exception->getLine());
 }
 
 /**
@@ -19,38 +19,38 @@ function errorExceptionHandler($exception)
  */
 function errorHandler($errno, $errstr, $errfile, $errline)
 {
-	if (0 === error_reporting()) {
-		return true;
-	}
+    if (0 === error_reporting()) {
+        return true;
+    }
 
-	$die = false;
+    $die = false;
 
-	switch ($errno) {
-		case E_NOTICE:
-		case E_USER_NOTICE:
-			$error = 'Notice';
-			break;
-		case E_WARNING:
-		case E_USER_WARNING:
-			$error = 'Warning';
-			break;
-		case E_ERROR:
-		case E_USER_ERROR:
-			$error = 'Fatal Error';
-			$die = true;
-			break;
-		default:
-			$error = 'Unknown';
-			break;
-	}
+    switch ($errno) {
+        case E_NOTICE:
+        case E_USER_NOTICE:
+            $error = 'Notice';
+            break;
+        case E_WARNING:
+        case E_USER_WARNING:
+            $error = 'Warning';
+            break;
+        case E_ERROR:
+        case E_USER_ERROR:
+            $error = 'Fatal Error';
+            $die = true;
+            break;
+        default:
+            $error = 'Unknown';
+            break;
+    }
 
-	echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
+    echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
 
-	if($die){
-		die();
-	}
+    if ($die) {
+        die();
+    }
 
-	return true;
+    return true;
 }
 
 //error handler

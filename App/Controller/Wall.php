@@ -10,13 +10,13 @@ use App\Engine\Controller;
  */
 class Wall extends Controller
 {
-	/**
-	 *
-	 */
-	public function index()
-	{
-		$this->template = 'wall';
+    /**
+     *
+     */
+    public function index()
+    {
+        $this->template = 'wall';
 
-		$this->render();
-	}
+        $this->render();
+    }
 }

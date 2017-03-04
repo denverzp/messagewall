@@ -9,7 +9,7 @@ define('DIR_LOGS', DIR_APP . 'logs/');
 define('DIR_TEMPLATE', DIR_APP . 'App/View/');
 
 //database
-define( 'DB_HOSTNAME', 'localhost' );
-define( 'DB_USERNAME', 'messagewall' );
-define( 'DB_PASSWORD', 'ZgiatfcXwQJ4Q4IfQAmb' );
-define( 'DB_DATABASE', 'messagewall' );
+define('DB_HOSTNAME', 'localhost');
+define('DB_USERNAME', 'messagewall');
+define('DB_PASSWORD', 'ZgiatfcXwQJ4Q4IfQAmb');
+define('DB_DATABASE', 'messagewall');

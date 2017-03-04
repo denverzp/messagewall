@@ -10,67 +10,61 @@ namespace App\Engine;
  */
 class Front
 {
-	/**
-	 * @var Registry
-	 */
-	protected $registry;
+    /**
+     * @var Registry
+     */
+    protected $registry;
 
-	/**
-	 * @var Log
-	 */
-	protected $log;
+    /**
+     * @var Log
+     */
+    protected $log;
 
-	/**
-	 * Front constructor.
-	 * @param $registry
-	 */
-	public function __construct(Registry $registry)
-	{
-		$this->registry = $registry;
+    /**
+     * Front constructor.
+     * @param $registry
+     */
+    public function __construct(Registry $registry)
+    {
+        $this->registry = $registry;
 
-		$this->log = $registry->get('log');
-	}
+        $this->log = $registry->get('log');
+    }
 
 
-	/**
-	 * @param Action $action
-	 */
-	public function execute(Action $action)
-	{
-		$file   = $action->getFile();
+    /**
+     * @param Action $action
+     */
+    public function execute(Action $action)
+    {
+        $file   = $action->getFile();
 
-		$class  = $action->getClass();
+        $class  = $action->getClass();
 
-		$method = $action->getMethod();
+        $method = $action->getMethod();
 
-		$args   = $action->getArgs();
+        $args   = $action->getArgs();
 
-		$action = '';
+        $action = '';
 
-		if (file_exists($file)) {
+        if (file_exists($file)) {
+            require_once($file);
 
-			require_once($file);
+            $controller = new $class($this->registry);
 
-			$controller = new $class($this->registry);
+            if (is_callable(array($controller, $method))) {
+                $action = call_user_func_array(array($controller, $method), $args);
+            } else {
+                $this->log->write('Not callable class or method! - ' . $controller . '@' . $method);
 
-			if (is_callable(array($controller, $method))) {
+                trigger_error('Not callable class!', E_ERROR);
+            }
+        } else {
+            $this->log->write('Cannot find controller file! - ' . $file);
 
-				$action = call_user_func_array(array($controller, $method), $args);
+            trigger_error('Cannot find controller file!', E_ERROR);
+        }
 
-			} else {
-
-				$this->log->write('Not callable class or method! - ' . $controller . '@' . $method);
-
-				trigger_error('Not callable class!', E_ERROR);
-			}
-
-		} else {
-
-			$this->log->write('Cannot find controller file! - ' . $file);
-
-			trigger_error('Cannot find controller file!', E_ERROR);
-		}
-
-		return $action;
-	}
+        return $action;
+    }
 }

@@ -27,9 +27,12 @@
             <p class="text-muted">This is my board - and I'm going to write.</p>
           </div>
           <div class="col-sm-4 py-4">
-            <?php if(isset($auth) && true === $auth){ ?>
+            <?php if (isset($auth) && true === $auth) {
+    ?>
             
-            <?php } else { ?>  
+            <?php 
+} else {
+    ?>  
             <h4 class="text-white">Sign in</h4>
             <ul class="list-unstyled">
               <li><a href="<?php echo HTTP_SERVER ?>?google&google_auth" class="text-white">
@@ -50,7 +53,8 @@
               </li>
 -->
             </ul>
-            <?php } ?>
+            <?php 
+} ?>
           </div>
         </div>
       </div>

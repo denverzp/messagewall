@@ -9,7 +9,7 @@ use \Google_Client;
 class GoogleAuth
 {
     /**
-     * 
+     *
      * @return Google_Client
      */
     private function instance()
@@ -27,8 +27,8 @@ class GoogleAuth
     /**
      * Send request to OAuth 2.0 server
      */
-    public function auth() {
-        
+    public function auth()
+    {
         $client = $this->instance();
 
         $auth_url = $client->createAuthUrl();
