@@ -34,26 +34,25 @@ class Action
      */
     public function __construct($route, $args = [])
     {
-        $path = '';
+        $parts = explode('@', str_replace('../', '', $route));
 
-        $parts = explode('/', str_replace('../', '', $route));
+        $controller = array_shift($parts);
 
-        foreach ($parts as $part) {
-            $path .= $part;
+        $file = DIR_APPLICATION . 'Controller/' . str_replace('../', '', ucfirst($controller)) . 'Controller.php';
 
-            if (is_file(DIR_APPLICATION . 'Controller/' . str_replace('../', '', $path) . '.php')) {
-                $this->file = DIR_APPLICATION . 'Controller/' . str_replace('../', '', $path) . '.php';
+        if (is_file($file)) {
 
-                $this->class = '\\App\\Controller\\'. preg_replace('/[^a-zA-Z0-9]/', '', $path);
+            $this->file = $file;
 
-                array_shift($parts);
+            $this->class = '\\App\\Controller\\'. preg_replace('/[^a-zA-Z0-9]/', '', $controller) .'Controller';
 
-                break;
-            }
+        } else {
 
-            if ($args) {
-                $this->args = $args;
-            }
+	        trigger_error('Cannot find controller file! - ');
+        }
+
+        if ($args) {
+            $this->args = $args;
         }
 
         $method = array_shift($parts);
@@ -83,76 +82,5 @@ class Action
     public function getArgs()
     {
         return $this->args;
-    }
-
-
-
-   /**
-    * 
-    * @param string $action
-    */
-    public function run($action)
-    {
-        switch ($action) {
-
-            //user try auth wia google
-            case 'google_auth':
-
-                //if already auth user try again auth - return to board
-                if (isset($_SESSION['auth']) && true === $_SESSION['auth']) {
-                    $this->redirect(HTTP_SERVER .'?board');
-                } else {
-                    $google = new GoogleAuth();
-
-                    $google->auth();
-                }
-
-                break;
-            
-            //return success auth
-            case 'auth_return':
-                
-                if (!isset($_SESSION['auth']) || true !== $_SESSION['auth']) {
-                    $google = new GoogleAuth();
-                    
-                    $token = $google->getToken();
-                    
-                    if ($token) {
-                        $_SESSION['auth_token'] = $token;
-                        $_SESSION['auth'] = true;
-                    }
-                }
-
-//                $this->redirect(HTTP_SERVER .'?board');
-                
-                break;
-            
-
-            //show board
-            //return auth error
-            case 'show_board':
-            case 'auth_error':
-
-                $front = new Front();
-
-                $front->board();
-
-                break;
-
-            //show homepage
-            case 'show_home':
-            default:
-                
-                //if auth user - redirect to board
-                if (isset($_SESSION['auth']) && true === $_SESSION['auth']) {
-                    $this->redirect(HTTP_SERVER .'?board');
-                }
-
-                $front = new Front();
-
-                $front->home();
-
-                break;
-        }
     }
 }

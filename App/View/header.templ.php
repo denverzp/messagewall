@@ -19,28 +19,37 @@
 
   <body>
 
-    <div class="collapse bg-inverse" id="navbarHeader">
+    <div class="bg-inverse" id="navbarHeader">
       <div class="container">
         <div class="row">
           <div class="col-sm-8 py-4">
-            <h4 class="text-white">About</h4>
+            <h4 class="navbar-inverse">
+	            <a href="<?php echo HTTP_SERVER ?>" class="navbar-brand text-white">Board</a>
+            </h4>
             <p class="text-muted">This is my board - and I'm going to write.</p>
           </div>
           <div class="col-sm-4 py-4">
-            <?php if (isset($auth) && true === $auth) {
-    ?>
-            
-            <?php 
-} else {
-    ?>  
+            <?php if (isset($auth) && true === $auth) { ?>
+            <?php if (isset($userinfo) && 0 !== count($userinfo)) { ?>
+		            <div class="user-info">
+			            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
+			            <h5 class="text-white"><?php echo $userinfo['name'] ?></h5>
+		            </div>
+            <?php } ?>
+	            <p>
+		            <a class="text-white" href="<?php echo HTTP_SERVER ?>?logout">
+			            Logout
+			            <i class="fa fa-sign-out" aria-hidden="true"></i>
+		            </a>
+	            </p>
+            <?php } else { ?>
             <h4 class="text-white">Sign in</h4>
             <ul class="list-unstyled">
               <li><a href="<?php echo HTTP_SERVER ?>?google&google_auth" class="text-white">
-                      <i class="fa fa-google"></i>
-                      Google
+                      <i class="fa fa-google-plus" aria-hidden="true"></i>
                   </a>
               </li>
-<!--              
+<!--
               <li><a href="#" class="text-white">
                       <i class="fa fa-facebook"></i>
                       Facebook
@@ -53,18 +62,9 @@
               </li>
 -->
             </ul>
-            <?php 
-} ?>
+            <?php } ?>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="navbar navbar-inverse bg-inverse">
-      <div class="container d-flex justify-content-between">
-        <a href="<?php echo HTTP_SERVER ?>" class="navbar-brand">Board</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
       </div>
     </div>
 

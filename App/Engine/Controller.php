@@ -2,8 +2,11 @@
 namespace App\Engine;
 
 /**
+ * Class Controller
+ * @package App\Engine
  *
  * @property Request $request
+ * @property Session $session
  * @property Log $log
  * @property Db $db
  */

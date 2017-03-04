@@ -48,6 +48,7 @@ class Front
         $action = '';
 
         if (file_exists($file)) {
+
             require_once($file);
 
             $controller = new $class($this->registry);
@@ -57,12 +58,14 @@ class Front
             } else {
                 $this->log->write('Not callable class or method! - ' . $controller . '@' . $method);
 
-                trigger_error('Not callable class!', E_ERROR);
+                trigger_error('Not callable class!');
             }
+
         } else {
+
             $this->log->write('Cannot find controller file! - ' . $file);
 
-            trigger_error('Cannot find controller file!', E_ERROR);
+            trigger_error('Cannot find controller file!');
         }
 
         return $action;
