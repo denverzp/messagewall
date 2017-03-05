@@ -38,12 +38,12 @@ class Action
 
         $controller = array_shift($parts);
 
-        $file = DIR_APPLICATION . 'Controller/' . str_replace('../', '', ucfirst($controller)) . 'Controller.php';
+        $file = DIR_APPLICATION . 'Controller/' . str_replace('../', '', ucfirst($controller)) . '.php';
 
         if (is_file($file)) {
             $this->file = $file;
 
-            $this->class = '\\App\\Controller\\'. preg_replace('/[^a-zA-Z0-9]/', '', $controller) .'Controller';
+            $this->class = '\\App\\Controller\\'. preg_replace('/[^a-zA-Z0-9]/', '', $controller) .'';
         } else {
             trigger_error('Cannot find controller file! - ');
         }

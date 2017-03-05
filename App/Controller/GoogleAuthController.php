@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Engine\Controller;
+use App\Engine\Traits\Users;
 use App\Model\GoogleAuth;
 use App\Model\User;
 
@@ -12,13 +13,16 @@ use App\Model\User;
  */
 class GoogleAuthController extends Controller
 {
+	use Users;
+
     /**
      * User try auth wia Google
      */
     public function auth()
     {
         //if already auth user try again auth - return to board
-        if (true === array_key_exists('auth', $this->session->data) && true === $this->session->data['auth']) {
+        if (true === $this->isUserAuth()) {
+
             $this->redirect(HTTP_SERVER .'?wall');
 
         //auth wia google
@@ -35,12 +39,14 @@ class GoogleAuthController extends Controller
     public function code_return()
     {
         if (true === array_key_exists('code', $this->request->get)) {
+
             $client = new GoogleAuth($this->registry);
 
             //get access token from auth code
             $token = $client->getToken($this->request->get['code']);
 
             if (false !== $token) {
+
                 $this->session->data['auth'] = true;
                 $this->session->data['auth_token'] = $token;
 
@@ -48,6 +54,7 @@ class GoogleAuthController extends Controller
                 $userinfo = $client->userinfo();
 
                 if ($userinfo) {
+
                     $this->get_user($userinfo);
                 }
             }
@@ -68,12 +75,15 @@ class GoogleAuthController extends Controller
 
         //otherwise - create new user and get user_id
         if (0 === count($user_db)) {
+
             $user_id = $user->create($userinfo);
 
             $this->session->data['userinfo'] = $userinfo;
 
             $this->session->data['user_id'] = $user_id;
+
         } else {
+
             $this->session->data['userinfo'] = $user_db;
 
             $this->session->data['user_id'] = $user_db['id'];
@@ -86,6 +96,7 @@ class GoogleAuthController extends Controller
     public function code_error()
     {
         if (true === array_key_exists('error', $this->request->get)) {
+
             $this->session->data['error'] = $this->request->get['error'];
 
             $this->redirect(HTTP_SERVER . '?wall');

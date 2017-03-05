@@ -4,7 +4,7 @@ namespace App\Controller;
 use App\Engine\Controller;
 
 /**
- * Class User
+ * Class UserController
  * @package App\Controller
  */
 class UserController extends Controller

@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="<?php echo HTTP_SERVER ?>favicon.ico">
 
     <title>My board</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?php echo HTTP_SERVER ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Custom styles for this template -->
     <link href="<?php echo HTTP_SERVER ?>css/style.css" rel="stylesheet">
   </head>
 
@@ -29,9 +27,9 @@
             <p class="text-muted">This is my board - and I'm going to write.</p>
           </div>
           <div class="col-sm-4 py-4">
-            <?php if (isset($auth) && true === $auth) {
+            <?php if (true === $auth) {
     ?>
-            <?php if (isset($userinfo) && 0 !== count($userinfo)) {
+            <?php if (0 !== count($userinfo)) {
         ?>
 		            <div class="user-info">
 			            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
@@ -48,7 +46,7 @@
             <?php 
 } else {
     ?>
-            <h4 class="text-white">Sign in</h4>
+            <h4 class="text-white">Log in</h4>
             <ul class="list-unstyled">
               <li><a href="<?php echo HTTP_SERVER ?>?google&google_auth" class="text-white">
                       <i class="fa fa-google-plus" aria-hidden="true"></i>
