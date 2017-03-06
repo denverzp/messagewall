@@ -3,8 +3,7 @@
 namespace App\Engine;
 
 /**
- * Class Log
- * @package App\Engine
+ * Class Log.
  */
 class Log
 {
@@ -15,6 +14,7 @@ class Log
 
     /**
      * Log constructor.
+     *
      * @param string $filename
      */
     public function __construct($filename = 'global.log')

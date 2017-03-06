@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Controller;
 
 use App\Engine\Controller;
 
 /**
- * Class UserController
- * @package App\Controller
+ * Class UserController.
  */
 class UserController extends Controller
 {

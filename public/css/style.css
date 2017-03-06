@@ -84,7 +84,8 @@ footer {
     padding: 10px;
 }
 
-.posts {
+.posts,
+.post-comments{
     display: flex;
     flex-direction: column;
     align-content: space-between;
@@ -93,7 +94,13 @@ footer {
     margin: 0;
 }
 
-.post {
+.post-comments{
+    display: none;
+    margin: 1rem 0 1rem 2rem;
+}
+
+.post,
+.post-comment{
     background: #fff;
     box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
     float: left;
@@ -102,19 +109,24 @@ footer {
     border: 0;
 }
 
-.post > img {
-    margin-bottom: 0.75rem;
+.post-comment {
+    box-shadow: none;
+    border:1px solid #e8e8e8;
 }
 
-.post-info p {
+.post-info p,
+.post-comment-info p
+{
     margin: 0;
 }
 
-.post-text {
+.post-text,
+.comment-text {
     font-size: 0.8rem;
 }
 
-.post-edit {
+.post-edit,
+.post-comment-edit {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -122,19 +134,22 @@ footer {
     align-content: space-around;
 }
 
-.post-edit-buttons {
+.post-edit-buttons,
+.post-comment-edit-buttons {
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s ease;
 }
 
-.post:hover .post-edit-buttons {
+.post:hover .post-edit-buttons,
+.post-comment:hover .post-comment-edit-buttons {
     opacity: 1;
     visibility: visible;
     transition: all 0.3s ease;
 }
 
-.post-edit .btn {
+.post-edit .btn,
+.post-comment-edit .btn{
     margin: 0 5px;
 }
 

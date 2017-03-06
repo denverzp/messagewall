@@ -32,6 +32,11 @@
 				'success': 'Post successfully added!',
 				'edit': 'Post successfully change!',
 				'delete': 'Post successfully delete!'
+			},
+			txt_comment: {
+				'success': 'Comment successfully added!',
+				'edit': 'Comment successfully change!',
+				'delete': 'Comment successfully delete!'
 			}
 		};
 	</script>

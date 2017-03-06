@@ -1,16 +1,17 @@
 <?php
+
 namespace App\Model;
 
 use App\Engine\Model;
 
 /**
- * Class User
- * @package App\Model
+ * Class User.
  */
 class User extends Model
 {
     /**
      * @param $data
+     *
      * @return mixed
      */
     public function create($data)
@@ -32,6 +33,7 @@ class User extends Model
 
     /**
      * @param $id
+     *
      * @return array
      */
     public function get($id)
@@ -40,7 +42,7 @@ class User extends Model
 
         $sql = 'SELECT *'
             . ' FROM `users`'
-            . ' WHERE `external_id`="' . $this->db->escape($id) .'"'
+            . ' WHERE `external_id`="' . $this->db->escape($id) . '"'
             . ' LIMIT 1';
 
         $query = $this->db->query($sql);

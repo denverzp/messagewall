@@ -1,43 +1,42 @@
 <?php
+
 namespace App\Engine;
+
 /**
- * Class Template
- * @package App\Engine
+ * Class Template.
  */
 class Template
 {
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     public $data = [];
 
-	/**
-	 * @param $filename
-	 * @return string
-	 */
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
     public function fetch($filename)
     {
-        $file = DIR_TEMPLATE . $filename .'.templ.php';
+        $file = DIR_TEMPLATE . $filename . '.templ.php';
 
         if (file_exists($file)) {
-
             extract($this->data);
 
             ob_start();
 
-            include($file);
+            include $file;
 
             $content = ob_get_contents();
 
             ob_end_clean();
 
             return $content;
-
         } else {
-
             trigger_error('Error: Could not load template ' . $file . '!');
         }
 
-	    return false;
+        return false;
     }
 }

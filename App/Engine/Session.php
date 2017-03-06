@@ -1,23 +1,23 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Session
- * @package App\Engine
+ * Class Session.
  */
 class Session
 {
     /**
      * @var array
      */
-    public $data = array();
+    public $data = [];
 
     /**
      * Session constructor.
      */
     public function __construct()
     {
-        if (!session_id()) {
+        if ( ! session_id()) {
             ini_set('session.use_cookies', 'On');
             ini_set('session.use_trans_sid', 'Off');
 
@@ -25,6 +25,6 @@ class Session
             session_start();
         }
 
-        $this->data =& $_SESSION;
+        $this->data = &$_SESSION;
     }
 }

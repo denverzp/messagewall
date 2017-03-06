@@ -1,13 +1,7 @@
 <?php
 
-/**
- *
- */
 namespace App\Engine;
 
-/**
- *
- */
 class Front
 {
     /**
@@ -22,6 +16,7 @@ class Front
 
     /**
      * Front constructor.
+     *
      * @param $registry
      */
     public function __construct(Registry $registry)
@@ -31,29 +26,28 @@ class Front
         $this->log = $registry->get('log');
     }
 
-
     /**
      * @param Action $action
      */
     public function execute(Action $action)
     {
-        $file   = $action->getFile();
+        $file = $action->getFile();
 
-        $class  = $action->getClass();
+        $class = $action->getClass();
 
         $method = $action->getMethod();
 
-        $args   = $action->getArgs();
+        $args = $action->getArgs();
 
         $action = '';
 
         if (file_exists($file)) {
-            require_once($file);
+            require_once $file;
 
             $controller = new $class($this->registry);
 
-            if (is_callable(array($controller, $method))) {
-                $action = call_user_func_array(array($controller, $method), $args);
+            if (is_callable([$controller, $method])) {
+                $action = call_user_func_array([$controller, $method], $args);
             } else {
                 $this->log->write('Not callable class or method! - ' . $controller . '@' . $method);
 

@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Request
- * @package App\Engine
+ * Class Request.
  */
 class Request
 {

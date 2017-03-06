@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class DB
- * @package App\Engine
+ * Class DB.
  */
 class DB
 {
@@ -35,13 +35,14 @@ class DB
 
     /**
      * @param $sql
+     *
      * @return mixed
      */
     public function query($sql)
     {
         $query = $this->link->query($sql);
 
-        if (!$this->link->errno) {
+        if ( ! $this->link->errno) {
             if (isset($query->num_rows)) {
                 $data = [];
 
@@ -71,6 +72,7 @@ class DB
 
     /**
      * @param $value
+     *
      * @return mixed
      */
     public function escape($value)

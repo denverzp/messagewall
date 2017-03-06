@@ -2,9 +2,6 @@
 
 namespace App\Engine;
 
-/**
- *
- */
 class Action
 {
     /**
@@ -29,6 +26,7 @@ class Action
 
     /**
      * Action constructor.
+     *
      * @param $route
      * @param array $args
      */
@@ -43,7 +41,7 @@ class Action
         if (is_file($file)) {
             $this->file = $file;
 
-            $this->class = '\\App\\Controller\\'. preg_replace('/[^a-zA-Z0-9]/', '', $controller) .'';
+            $this->class = '\\App\\Controller\\' . preg_replace('/[^a-zA-Z0-9]/', '', $controller) . '';
         } else {
             trigger_error('Cannot find controller file! - ');
         }

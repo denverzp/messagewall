@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Config
- * @package App\Engine
+ * Class Config.
  */
 class Config
 {
@@ -14,11 +14,12 @@ class Config
 
     /**
      * @param $key
+     *
      * @return mixed|null
      */
     public function get($key)
     {
-        return (isset($this->data[$key]) ? $this->data[$key] : null);
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     /**
@@ -32,6 +33,7 @@ class Config
 
     /**
      * @param $key
+     *
      * @return bool
      */
     public function has($key)

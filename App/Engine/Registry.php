@@ -1,24 +1,23 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Registry
- * @package App\Engine
+ * Class Registry.
  */
 class Registry
 {
     /**
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
     /**
      * @param $key
-     * @return null
      */
     public function get($key)
     {
-        return (isset($this->data[$key]) ? $this->data[$key] : null);
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     /**
@@ -32,6 +31,7 @@ class Registry
 
     /**
      * @param $key
+     *
      * @return bool
      */
     public function has($key)

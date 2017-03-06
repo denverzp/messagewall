@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Model
- * @package App\Engine
+ * Class Model.
  *
  * @property Request $request
  * @property Session $session
@@ -19,6 +19,7 @@ class Model
 
     /**
      * Model constructor.
+     *
      * @param Registry $registry
      */
     public function __construct(Registry $registry)
@@ -28,7 +29,6 @@ class Model
 
     /**
      * @param $key
-     * @return null
      */
     public function __get($key)
     {

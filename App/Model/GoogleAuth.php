@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Model;
 
 use App\Engine\Model;
-use \Google_Client;
-use \Google_Service_Plus;
+use Google_Client;
+use Google_Service_Plus;
 
 /**
  * @source: https://developers.google.com/api-client-library/php/auth/web-App
@@ -11,7 +12,6 @@ use \Google_Service_Plus;
 class GoogleAuth extends Model
 {
     /**
-     *
      * @return Google_Client
      */
     private function instance()
@@ -24,12 +24,11 @@ class GoogleAuth extends Model
 //
 //	    $client->setDeveloperKey($this->config->get('google_project_code')); //"studyoauth"
 
-
-        $client->setApplicationName("StudyOAuth_site");
+        $client->setApplicationName('StudyOAuth_site');
 
         $client->setAuthConfig(DIR_ROOT . 'secret/client.apps.googleusercontent.com.json');
 
-        $client->setDeveloperKey("studyoauth");
+        $client->setDeveloperKey('studyoauth');
 
         $client->addScope(Google_Service_Plus::PLUS_LOGIN);
         $client->addScope(Google_Service_Plus::PLUS_ME);
@@ -38,9 +37,9 @@ class GoogleAuth extends Model
 
         return $client;
     }
-    
+
     /**
-     * Send request to OAuth 2.0 server
+     * Send request to OAuth 2.0 server.
      */
     public function auth()
     {
@@ -52,7 +51,8 @@ class GoogleAuth extends Model
     }
 
     /**
-     * Get userinfo from google+
+     * Get userinfo from google+.
+     *
      * @return mixed
      */
     public function userinfo()
@@ -67,26 +67,26 @@ class GoogleAuth extends Model
             $info = $userinfo->people->get('me');
 
             return [
-                'id'        => $info['id'],
-                'name'      => $info['displayName'],
-                'email'     => $info['modelData']['emails'][0]['value'],
-                'image'     => $info['modelData']['image']['url'],
-                'gender'    => $info['gender'],
-                'language'  => $info['language'],
-                'url'       => $info['url'],
+                'id' => $info['id'],
+                'name' => $info['displayName'],
+                'email' => $info['modelData']['emails'][0]['value'],
+                'image' => $info['modelData']['image']['url'],
+                'gender' => $info['gender'],
+                'language' => $info['language'],
+                'url' => $info['url'],
             ];
         }
     }
-    
+
     /**
-     * Handle the OAuth 2.0 server response
+     * Handle the OAuth 2.0 server response.
      */
     public function getToken($code)
     {
         $client = $this->instance();
-        
+
         $client->authenticate($code);
-        
+
         return $client->getAccessToken();
     }
 }

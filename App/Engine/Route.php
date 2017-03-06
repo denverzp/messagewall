@@ -3,7 +3,7 @@
 namespace App\Engine;
 
 /**
- * very very simple routing
+ * very very simple routing.
  */
 class Route
 {
@@ -19,6 +19,7 @@ class Route
 
     /**
      * Route constructor.
+     *
      * @param Registry $registry
      */
     public function __construct(Registry $registry)
@@ -31,80 +32,68 @@ class Route
 
         //wall
         if (true === array_key_exists('wall', $this->request->get)) {
-
             $this->route = 'WallController@index';
 
-	        //AJAX - posts and comments
-	        if (true === array_key_exists('type', $this->request->post)) {
+            //AJAX - posts and comments
+            if (true === array_key_exists('type', $this->request->post)) {
+                if($this->request->post['type'] === 'posts'){
+                    if(true == array_key_exists('action', $this->request->post)){
+                        switch($this->request->post['action']){
+                            case 'list':
+                                $this->route = 'PostsController@index';
+                                break;
 
-		        if($this->request->post['type'] === 'posts'){
+                            case 'create':
+                                $this->route = 'PostsController@create';
+                                break;
 
-			        if(true == array_key_exists('action', $this->request->post)){
+                            case 'store':
+                                $this->route = 'PostsController@store';
+                                break;
 
-				        switch($this->request->post['action']){
+                            case 'edit':
+                                $this->route = 'PostsController@edit';
+                                break;
 
-					        case 'list':
-						        $this->route = 'PostsController@index';
-						        break;
+                            case 'update':
+                                $this->route = 'PostsController@update';
+                                break;
 
-					        case 'create':
-						        $this->route = 'PostsController@create';
-						        break;
+                            case 'destroy':
+                                $this->route = 'PostsController@destroy';
+                                break;
+                        }
+                    }
+                }
 
-					        case 'store':
-						        $this->route = 'PostsController@store';
-						        break;
+                if($this->request->post['type'] === 'comments'){
+                    switch($this->request->post['action']){
+                        case 'list':
+                            $this->route = 'CommentsController@index';
+                            break;
 
-					        case 'edit':
-						        $this->route = 'PostsController@edit';
-						        break;
+                        case 'create':
+                            $this->route = 'CommentsController@create';
+                            break;
 
-					        case 'update':
-						        $this->route = 'PostsController@update';
-						        break;
+                        case 'store':
+                            $this->route = 'CommentsController@store';
+                            break;
 
-					        case 'destroy':
-						        $this->route = 'PostsController@destroy';
-						        break;
-				        }
-			        }
-		        }
+                        case 'edit':
+                            $this->route = 'CommentsController@edit';
+                            break;
 
-		        if($this->request->post['type'] === 'comments'){
+                        case 'update':
+                            $this->route = 'CommentsController@update';
+                            break;
 
-			        switch($this->request->post['action']){
-
-				        case 'list':
-					        $this->route = 'CommentsController@index';
-					        break;
-
-				        case 'create':
-					        $this->route = 'CommentsController@create';
-					        break;
-
-				        case 'store':
-					        $this->route = 'CommentsController@store';
-					        break;
-
-				        case 'edit':
-					        $this->route = 'CommentsController@edit';
-					        break;
-
-				        case 'update':
-					        $this->route = 'CommentsController@update';
-					        break;
-
-				        case 'show':
-					        $this->route = 'CommentsController@show';
-					        break;
-
-				        case 'destroy':
-					        $this->route = 'CommentsController@destroy';
-					        break;
-			        }
-		        }
-
-	        }
+                        case 'destroy':
+                            $this->route = 'CommentsController@destroy';
+                            break;
+                    }
+                }
+            }
         }
 
         //logout
@@ -114,7 +103,6 @@ class Route
 
         //Google auth
         if (true === array_key_exists('google', $this->request->get)) {
-
             if (true === array_key_exists('google_auth', $this->request->get)) {
                 $this->route = 'GoogleAuthController@auth';
             }
@@ -130,7 +118,7 @@ class Route
     }
 
     /**
-     * Controller@return string
+     * Controller@return string.
      */
     public function getRoute()
     {

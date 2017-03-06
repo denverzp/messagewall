@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Engine;
 
 /**
- * Class Controller
- * @package App\Engine
+ * Class Controller.
  *
  * @property Request $request
  * @property Session $session
@@ -29,6 +29,7 @@ class Controller
 
     /**
      * Controller constructor.
+     *
      * @param Registry $registry
      */
     public function __construct(Registry $registry)
@@ -38,7 +39,6 @@ class Controller
 
     /**
      * @param $key
-     * @return null
      */
     public function __get($key)
     {
@@ -55,15 +55,14 @@ class Controller
     }
 
     /**
-     *
-     * @param array $data
+     * @param array  $data
      * @param string $template
+     *
      * @return string
      */
     protected function render()
     {
         $template = DIR_TEMPLATE . '' . $this->template . '.templ.php';
-
 
         if (file_exists($template)) {
             extract($this->data);
@@ -71,7 +70,7 @@ class Controller
             ob_start();
 
             require DIR_TEMPLATE . 'header.templ.php';
-            require($template);
+            require $template;
             require DIR_TEMPLATE . 'footer.templ.php';
 
             $output = ob_get_contents();
@@ -85,14 +84,15 @@ class Controller
     }
 
     /**
-     * Redirect
+     * Redirect.
+     *
      * @param string $url
-     * @param int $status
+     * @param int    $status
      */
     protected function redirect($url, $status = 302)
     {
         header('Status: ' . $status);
-        header('Location: ' . str_replace(array('&amp;', "\n", "\r"), array('&', '', ''), $url));
+        header('Location: ' . str_replace(['&amp;', "\n", "\r"], ['&', '', ''], $url));
         exit();
     }
 }
