@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Engine\Controller;
-use App\Engine\Template;
 use App\Engine\Traits\Users;
-use App\Model\Comment;
-use App\Model\Post;
 
 /**
  * Class WallController
@@ -34,31 +31,13 @@ class WallController extends Controller
         $this->data['userinfo'] = $this->isUserinfo();
         $this->data['user_id'] = $this->isUserId();
 
+	    //default page
+	    $this->session->data['page'] = 1;
+
 	    //posts
-	    $post = new Post($this->registry);
+	    $post = new PostsController($this->registry);
 
-	    $data = [
-		    'offset'=> 0,
-		    'limit' => 9,
-		    'order' => 'created_at',
-		    'by'    => 'DESC'
-	    ];
-
-	    $posts = $post->getPosts($data);
-
-	    //comments
-	    $comment = new Comment($this->registry);
-
-	    $comments = $comment->getComments($posts);
-
-	    //render posts
-	    $template = new Template();
-
-	    $template->data['curr_user'] = $this->isUserId();
-	    $template->data['posts'] = $posts;
-	    $template->data['comments'] = $comments;
-
-	    $this->data['posts'] = $template->fetch('posts');
+	    $this->data['posts'] = $post->getPostsByPage($this->session->data['page']);
 
         $this->template = 'wall';
 

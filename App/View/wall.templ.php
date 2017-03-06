@@ -17,7 +17,10 @@
 				<?php } ?>
 			</div>
 			<div class="col-12 posts-wrap">
-				<div class="row posts"><?php echo $posts; ?></div>
+				<div class="posts-content">
+					<div class="row posts"><?php echo $posts; ?></div>
+				</div>
+				<div class="loader"></div>
 			</div>
 		</div>
 

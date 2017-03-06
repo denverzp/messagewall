@@ -38,6 +38,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="row post-comments"></div>
 		</div>
 	<?php } ?>
 <?php } ?>

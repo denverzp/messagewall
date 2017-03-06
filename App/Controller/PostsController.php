@@ -27,14 +27,32 @@ class PostsController extends Controller
 	 */
 	public function index()
 	{
-		$page = 1;
-		$limit = 9;
-		$order = 'created_at';
-		$by = 'DESC';
+		$page = $this->session->data['page'];
 
 		if(true === array_key_exists('page', $this->request->post)){
+
 			$page = (int)$this->request->post['page'];
 		}
+
+		$json = [
+			'html' => $this->getPostsByPage($page),
+		];
+
+		$this->jsonAnswer($json);
+	}
+
+	/**
+	 * @param int $page
+	 * @return array
+	 */
+	public function getPostsByPage($page = 1)
+	{
+		//this is the limit posts by page
+		$limit = 8;
+
+		//sort order
+		$order = 'created_at';
+		$by = 'DESC';
 
 		$offset = ($page - 1) * $limit;
 
@@ -62,11 +80,7 @@ class PostsController extends Controller
 		$template->data['posts'] = $posts;
 		$template->data['comments'] = $comments;
 
-		$json = [
-			'html' => $template->fetch('posts'),
-		];
-
-		$this->jsonAnswer($json);
+		return $template->fetch('posts');
 	}
 
 	/**
@@ -219,13 +233,6 @@ class PostsController extends Controller
 		}
 
 		$this->jsonAnswer($json);
-	}
-
-
-
-	public function show()
-	{
-
 	}
 
 	/**

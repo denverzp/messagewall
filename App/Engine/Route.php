@@ -63,10 +63,6 @@ class Route
 						        $this->route = 'PostsController@update';
 						        break;
 
-					        case 'show':
-						        $this->route = 'PostsController@show';
-						        break;
-
 					        case 'destroy':
 						        $this->route = 'PostsController@destroy';
 						        break;

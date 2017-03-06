@@ -17,10 +17,13 @@
             'cpb':'#cancel_post_btn',
             'apf':'#add_post',
             'posts': '.posts',
+            'pc': '.posts-content',
+            'ld': '.loader',
             'epbtn':'.edit_post',
             'dpbtn':'.delete_post',
             'alerts':'#alerts',
             'werr':'.wall-errors',
+            'page': 1,
             'txt_ps' : actions_data.txt_post.success,
             'txt_pe' : actions_data.txt_post.edit,
             'txt_pd' : actions_data.txt_post.delete
@@ -31,12 +34,14 @@
         init: function(){
             var _this=this;
             _this.hide_shadow();
-            _this.bind();
+            _this.bind_posts();
+            _this.bind_comments();
+            _this.bind_scroll();
         },
         /**
          *
          */
-        bind: function(){
+        bind_posts: function(){
             var _this=this,o=_this.option;
             //show form add new post
             $(o.spb).on('click', function(){
@@ -77,17 +82,75 @@
                 _this.hide_form();
             });
         },
-        //POSTS
-        reload_posts_list: function(){
-            var _this=this,o=_this.option, action, page= 1, cp = Number($.cookie('post_page'), 10);
-            if(cp != 0 && cp != null){
-                page = cp;
-            }
+        bind_comments: function(){
+            var _this=this,o=_this.option;
+
+        },
+        /**
+         * infinity scroll
+         */
+        bind_scroll: function(){
+            var _this=this,o=_this.option;
+            $(o.pc).scroll(function () {
+                var ph = $(o.posts).height(), h = $(this).height(), scroll = $(this).scrollTop();
+                //got top
+                if(ph - scroll == h){
+                    _this.is_loader('show');
+                    _this.get_page();
+                } else {
+                    _this.is_loader('hide');
+                }
+            });
+        },
+        //INFINITY SCROLL FUNCTONS
+        /**
+         * load posts by page
+         * @param page
+         */
+        get_page: function(page){
+            var _this=this,o=_this.option, action;
             action = $.ajax({
                 url: o.url,
                 dataType: 'json',
                 type: 'post',
-                data: {'type':'posts','action':'list', 'page': page}
+                data: {'type':'posts','action':'list','page': o.page + 1}
+            });
+            action
+                .done(function(json){
+                    if(json['html']!=''){
+                        $(o.posts).append(json['html']);
+                        o.page++;
+                    }
+                })
+                .fail(function( jqXHR, textStatus){
+                    console.error(textStatus);
+                });
+            _this.is_loader('hide');
+        },
+        /**
+         * show or hide loaders
+         * @param action
+         */
+        is_loader:function(action){
+            var _this=this,o=_this.option, elm = $(o.ld);
+            if(action == 'show'){
+                elm.css({'opacity':1,'visibility':'visible'});
+            } else if(action == 'hide'){
+                elm.css({'opacity':0,'visibility':'hidden'});
+            }
+        },
+        //POSTS FUNCTIONS
+        /**
+         * reload posts after some action with posts
+         */
+        reload_posts_list: function(){
+            var _this=this,o=_this.option, action;
+            o.page = 1;
+            action = $.ajax({
+                url: o.url,
+                dataType: 'json',
+                type: 'post',
+                data: {'type':'posts','action':'list', 'page': o.page}
             });
             action
                 .done(function(json){
@@ -96,6 +159,7 @@
                 .fail(function(jqXHR, textStatus){
                     console.error(textStatus);
                 });
+            $(o.pc).scrollTop(0);
         },
         /**
          * show new post form
@@ -139,7 +203,7 @@
                         if(json['status']){
                             _this.show_alerts(o.txt_ps, 'alert-success');
                             _this.hide_form();
-                            _this.reload_posts_list();
+                            _this.reload_posts_list(true);
                         } else {
                             console.error(json['message']);
                             for(var i in json['error']){
@@ -209,7 +273,7 @@
                         if(json['status']){
                             _this.show_alerts(o.txt_pe, 'alert-success');
                             _this.hide_form();
-                            _this.reload_posts_list();
+                            _this.reload_posts_list(false);
                         } else {
                             console.error(json['message']);
                             for(var i in json['error']){
@@ -251,7 +315,7 @@
                 .done(function(json){
                     if(json['status']){
                         _this.show_alerts(o.txt_pd, 'alert-success');
-                        _this.reload_posts_list();
+                        _this.reload_posts_list(false);
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }

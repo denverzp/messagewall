@@ -67,10 +67,21 @@ footer {
 .content .posts-wrap {
     flex-grow: 0;
     flex-shrink: 1;
-    overflow: auto;
-    padding: 0.5rem;
+    position: relative;
+    padding: 2rem 0.5rem;
     background: rgba(255,255,255,1);
     border: 0.2rem solid #e8e8e8;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.posts-content {
+    overflow-y: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    padding: 10px;
 }
 
 .posts {
@@ -78,7 +89,7 @@ footer {
     flex-direction: column;
     align-content: space-between;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 0;
 }
 
@@ -122,8 +133,6 @@ footer {
     visibility: visible;
     transition: all 0.3s ease;
 }
-
-
 
 .post-edit .btn {
     margin: 0 5px;
@@ -197,4 +206,20 @@ footer p {
     z-index: 1;
     background: rgba(0,0,0,0.3);
     transition: all 0.5s ease ;
+}
+
+/* infinite scroll */
+.loader {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 1s ease;
+    background: rgba(0,0,0,0) url('../image/loader.gif') no-repeat scroll center center;
+    height: 5px;
+    margin: 1rem 0;
+    width: 160px;
+    position: absolute;
+    right: calc(50% - 80px);
+    z-index: 3;
+    bottom: 0;
+    margin-bottom: 12px;
 }
