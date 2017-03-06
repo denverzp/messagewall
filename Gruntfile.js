@@ -1,6 +1,4 @@
 module.exports = function (grunt) {
-        // require it at the top and pass in the grunt instance
-        require('load-grunt-tasks')(grunt);
         require('time-grunt')(grunt);
         // 1 - Описываем все выполняемые задачи
         grunt.initConfig({
