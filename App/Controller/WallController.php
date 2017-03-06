@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Engine\Controller;
 use App\Engine\Template;
 use App\Engine\Traits\Users;
+use App\Model\Comment;
 use App\Model\Post;
 
 /**
@@ -45,11 +46,17 @@ class WallController extends Controller
 
 	    $posts = $post->getPosts($data);
 
+	    //comments
+	    $comment = new Comment($this->registry);
+
+	    $comments = $comment->getComments($posts);
+
 	    //render posts
 	    $template = new Template();
 
-	    $template->data['posts'] = $posts;
 	    $template->data['curr_user'] = $this->isUserId();
+	    $template->data['posts'] = $posts;
+	    $template->data['comments'] = $comments;
 
 	    $this->data['posts'] = $template->fetch('posts');
 

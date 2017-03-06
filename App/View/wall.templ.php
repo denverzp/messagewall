@@ -4,16 +4,20 @@
 		<?php if($auth){ ?>
 		<div id="form"></div>
 		<?php } ?>
-		<div class="row">
-			<div class="col-9 content">
-				<div class="row posts"><?php echo $posts; ?></div>
-			</div>
-			<div class="col-3 sidebar">
-				<div id="buttons" class="text-center">
+		<div class="row content">
+			<div class="col-12 actions">
+				<?php if($auth){ ?>
+				<div id="buttons" class="text-right">
 					<button id="show_post_btn" class="btn btn-success">
 						<i class="fa fa-plus"></i> Add post
 					</button>
 				</div>
+				<?php } else { ?>
+					<div class="alert alert-info">For comments and posts - <a href="<?php echo HTTP_SERVER ?>">please login</a></div>
+				<?php } ?>
+			</div>
+			<div class="col-12 posts-wrap">
+				<div class="row posts"><?php echo $posts; ?></div>
 			</div>
 		</div>
 

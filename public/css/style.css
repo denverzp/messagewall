@@ -52,21 +52,42 @@ footer {
     justify-content: flex-start;
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: nowrap;
+}
+
+.content .actions {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.content .posts-wrap {
+    flex-grow: 0;
+    flex-shrink: 1;
+    overflow: auto;
+    padding: 0.5rem;
+    background: rgba(255,255,255,1);
+    border: 0.2rem solid #e8e8e8;
+}
+
 .posts {
     display: flex;
     flex-direction: column;
     align-content: space-between;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin: 0;
 }
 
 .post {
     background: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
     float: left;
     width: 100%;
     padding: 0.75rem;
-    margin-bottom: 2rem;
     border: 0;
 }
 
@@ -85,7 +106,7 @@ footer {
 .post-edit {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: flex-end;
     align-content: space-around;
 }

@@ -25,9 +25,9 @@ class Post extends Model
 	{
 		$result = [];
 
-		$sql = 'SELECT `p`.`id`, `p`.`title`, `p`.`body`, `p`.`user_id`, `u`.`name` as username,'
-				. ' DATE_FORMAT(`p`.`created_at`, "%d %b %y") as created_at,'
-				. ' DATE_FORMAT(`p`.`updated_at`, "%d %b %y") as updated_at'
+		$sql = 'SELECT `p`.`id`, `p`.`body`, `p`.`user_id`, `u`.`name` as username,'
+				. ' DATE_FORMAT(`p`.`created_at`, "%d.%m.%Y %H:%i") as created_at,'
+				. ' DATE_FORMAT(`p`.`updated_at`, "%d.%m.%Y %H:%i") as updated_at'
 			. ' FROM `posts` p'
 			. ' LEFT JOIN `users` u ON `p`.`user_id`=`u`.`id`'
 			. ' WHERE `p`.`id`= ' . (int)$post_id;
@@ -95,7 +95,6 @@ class Post extends Model
 	{
 		$sql = 'INSERT INTO `posts`'
 			. ' SET'
-			. ' `title` ="' . $this->db->escape($data['title']) . '",'
 			. ' `body` ="' . $this->db->escape($data['body']) . '",'
 			. ' `user_id` ="' . (int)$data['user_id'] . '"';
 
@@ -113,7 +112,6 @@ class Post extends Model
 	{
 		$sql = 'UPDATE `posts`'
 			. ' SET'
-			. ' `title` ="' . $this->db->escape($data['title']) . '",'
 			. ' `body` ="' . $this->db->escape($data['body']) . '"'
 			. ' WHERE `id` ="' . (int)$id . '"';
 

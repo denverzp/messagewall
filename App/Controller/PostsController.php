@@ -6,6 +6,7 @@ use App\Engine\Controller;
 use App\Engine\Template;
 use App\Engine\Traits\Strings;
 use App\Engine\Traits\Users;
+use App\Model\Comment;
 use App\Model\Post;
 
 /**
@@ -44,15 +45,22 @@ class PostsController extends Controller
 			'by'    => $by,
 		];
 
+		//posts
 		$post = new Post($this->registry);
 
 		$posts = $post->getPosts($data);
 
+		//comments
+		$comment = new Comment($this->registry);
+
+		$comments = $comment->getComments($posts);
+
 		//render posts
 		$template = new Template();
 
-		$template->data['posts'] = $posts;
 		$template->data['curr_user'] = $this->isUserId();
+		$template->data['posts'] = $posts;
+		$template->data['comments'] = $comments;
 
 		$json = [
 			'html' => $template->fetch('posts'),
@@ -100,7 +108,6 @@ class PostsController extends Controller
 		if($this->validate()){
 
 			$data = [
-				'title' => $this->request->post['title'],
 				'body' => $this->request->post['body'],
 				'user_id' => $this->isUserId(),
 			];
@@ -145,7 +152,6 @@ class PostsController extends Controller
 
 				$template = new Template();
 
-				$template->data['title'] = $post['title'];
 				$template->data['body'] = $post['body'];
 				$template->data['post_id'] = $post['id'];
 
@@ -187,7 +193,6 @@ class PostsController extends Controller
 				if($this->isUserId() === (int)$post['user_id']){
 
 					$data = [
-						'title' => $this->request->post['title'],
 						'body' => $this->request->post['body'],
 						'user_id' => $this->isUserId(),
 					];
@@ -280,20 +285,6 @@ class PostsController extends Controller
 			$error['auth'] = 'You need to log in';
 
 		} else {
-
-			if(false === array_key_exists('title',$this->request->post)){
-
-				$error['title'] = 'Title is required!';
-
-			} else {
-
-				$title_length = $this->getLengtn($this->request->post['title']);
-
-				if($title_length  < 2 || $title_length >= 255){
-
-					$error['title'] = 'Title must be greater than 2 and less than 255 characters!';
-				}
-			}
 
 			if(false === array_key_exists('body',$this->request->post)){
 

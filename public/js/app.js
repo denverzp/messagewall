@@ -125,15 +125,14 @@
          * publish new post
          */
         add_new_post: function(){
-            var _this=this,o=_this.option,action, t, b;
-            t = $(o.wrap).find('#post_title').val();
+            var _this=this,o=_this.option,action, b;
             b = $(o.wrap).find('#post_body').val();
-            if(t !='' && b != ''){
+            if(b != ''){
                 action = $.ajax({
                     url: o.url,
                     dataType: 'json',
                     type: 'post',
-                    data: {'type':'posts','action':'store','title':t,'body':b}
+                    data: {'type':'posts','action':'store','body':b}
                 });
                 action
                     .done(function(json){
@@ -155,11 +154,6 @@
                     });
             } else {
                 var elm, err;
-                if(t ==''){
-                    elm = $(o.wrap).find('.error_title');
-                    err = 'Title is required!';
-                    _this.show_errors(elm, err);
-                }
                 if(b ==''){
                     elm = $(o.wrap).find('.error_body');
                     err = 'Post body is required!';
@@ -202,14 +196,13 @@
         edit_post: function () {
             var _this=this,o=_this.option,action, t, b, p;
             p = $(o.wrap).find('#post_id').val();
-            t = $(o.wrap).find('#post_title').val();
             b = $(o.wrap).find('#post_body').val();
-            if(p > 0  && t !='' && b != ''){
+            if(p > 0  && b != ''){
                 action = $.ajax({
                     url: o.url,
                     dataType: 'json',
                     type: 'post',
-                    data: {'type':'posts','action':'update','post_id':p,'title':t,'body':b}
+                    data: {'type':'posts','action':'update','post_id':p,'body':b}
                 });
                 action
                     .done(function(json){
@@ -231,11 +224,6 @@
                     });
             } else {
                 var elm, err;
-                if(t ==''){
-                    elm = $(o.wrap).find('.error_title');
-                    err = 'Title is required!';
-                    _this.show_errors(elm, err);
-                }
                 if(b ==''){
                     elm = $(o.wrap).find('.error_body');
                     err = 'Post body is required!';

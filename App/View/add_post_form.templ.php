@@ -3,13 +3,8 @@
 		<h3>Add new post</h3>
 		<div>
 			<div class="form-group">
-				<label for="post_title">Title:</label>
-				<input type="text" class="form-control" id="post_title" name="post_title" placeholder="Enter title" required>
-				<div class="error_title"></div>
-			</div>
-			<div class="form-group">
 				<label for="post_body">Post:</label>
-				<textarea class="form-control" id="post_body" name="post_body" placeholder="Enter text here..." required></textarea>
+				<textarea class="form-control" id="post_body" name="post_body" placeholder="Enter message here..." required></textarea>
 				<div class="error_body"></div>
 			</div>
 			<div class="form-group">
