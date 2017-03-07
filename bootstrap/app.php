@@ -31,9 +31,6 @@ $registry->set('log', $log);
 $db = new \App\Engine\DB(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 $registry->set('db', $db);
 
-//Config
-$config = new \App\Engine\Config();
-
 //Front
 $front = new \App\Engine\Front($registry);
 
