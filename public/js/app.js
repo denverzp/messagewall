@@ -252,6 +252,7 @@
                         $(o.wrap).css({'opacity':1,'visibility':'visible'}).html(json['html']);
                         $(window).scrollTop($(o.wrap).position().top);
                         _this.show_shadow();
+                        $(o.wrap).find('#comment_body').focus();
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }
@@ -365,6 +366,7 @@
                     if(json['status']){
                         $(o.wrap).css({'opacity':1,'visibility':'visible'}).html(json['html']);
                         _this.show_shadow();
+                        $(o.wrap).find('#comment_body').focus();
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }
@@ -472,6 +474,7 @@
                     if(json['status']){
                         $(o.wrap).css({'opacity':1,'visibility':'visible'}).html(json['html']);
                         _this.show_shadow();
+                        $(o.wrap).find('#post_body').focus();
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }
@@ -541,6 +544,7 @@
                     if(json['status']){
                         $(o.wrap).css({'opacity':1,'visibility':'visible'}).html(json['html']);
                         _this.show_shadow();
+                        $(o.wrap).find('#post_body').focus();
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }

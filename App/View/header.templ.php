@@ -32,7 +32,7 @@
             <?php if (0 !== count($userinfo)) {
         ?>
 		            <div class="user-info row">
-			            <div class="col-12 col-sm-4">
+			            <div class="col-12 col-sm-4 text-center">
 				            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
 			            </div>
 			            <div class="col-6 col-sn-8">

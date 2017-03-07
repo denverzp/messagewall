@@ -14,15 +14,6 @@ class WallController extends Controller
 
     public function index()
     {
-        //DEV only
-        $this->session->data['auth'] = true;
-        $this->session->data['user_id'] = 1;
-        $this->session->data['userinfo'] = [
-            'name' => 'DEV Denver',
-            'image' => '',
-        ];
-        //DEV only
-
         $this->data['auth'] = $this->isUserAuth();
         $this->data['userinfo'] = $this->isUserinfo();
         $this->data['user_id'] = $this->isUserId();
