@@ -250,7 +250,7 @@
                 .done(function(json){
                     if(json['status']){
                         $(o.wrap).css({'opacity':1,'visibility':'visible'}).html(json['html']);
-                        $(window).scrollTop($(o.wrap).position().top);
+                        $(window).scrollTop($(o.wrap).offset().top);
                         _this.show_shadow();
                         $(o.wrap).find('#comment_body').focus();
                     } else {
@@ -308,7 +308,7 @@
                                 } else {
                                     parent.after(json['html']);
                                 }
-                                $(window).scrollTop($('#comment_'+json['message']).position().top);
+                                $(window).scrollTop($('#comment_'+json['message']).offset().top);
                             }
                             //update comments counter
                             if($(post_block).find('.comments-count-block').length){

@@ -66,11 +66,10 @@ class GoogleAuth extends Model
 
             $info = $userinfo->people->get('me');
 
-	        //if not isset image - set default
-	        if(!isset($info['modelData']['image']['url']) || empty($info['modelData']['image']['url'])){
-
-		        $info['modelData']['image']['url'] = HTTP_SERVER . 'image/profile.png';
-	        }
+            //if not isset image - set default
+            if( ! isset($info['modelData']['image']['url']) || empty($info['modelData']['image']['url'])){
+                $info['modelData']['image']['url'] = HTTP_SERVER . 'image/profile.png';
+            }
 
             return [
                 'id' => $info['id'],
