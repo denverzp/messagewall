@@ -1,5 +1,29 @@
 ;(function($, actions_data){
     /**
+     * Returns a function that will not fire, while continuing to be called.
+     * It only works once after 'wait' = N milliseconds after last call.
+     * If the passed argument 'immediate', it will be called once after the first run.
+     * @param func
+     * @param wait
+     * @param immediate
+     * @returns {Function}
+     */
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
+
+    /**
      *
      *
      */
@@ -26,6 +50,10 @@
             'werr':'.wall-errors',
             'page': 1,
             //comments
+            'cmp_p': '.post-comments',
+            'cmp_ex': '#expand_all_comment',
+            'cmp_cl': '#collapse_all_comment',
+            'expand': false,
             'cmp_b': '.comment_post',
             'cmp_cm': '.comment_comment',
             'cmp_c': '#cancel_comment_btn',
@@ -34,6 +62,7 @@
             'cmp_s': '.comments_show',
             'cmp_e': '.edit_comment',
             'cmp_d': '.delete_comment',
+            'cm_count': '.comments-count',
             //text fields
             'txt_ps' : actions_data.txt_post.success,
             'txt_pe' : actions_data.txt_post.edit,
@@ -46,11 +75,12 @@
          * Init
          */
         init: function(){
-            var _this=this;
+            var _this=this,o=_this.option;
             _this.hide_shadow();
             _this.bind_posts();
             _this.bind_comments();
             _this.bind_scroll();
+            $(o.posts).find(o.cmp_p).toggle(o.expand);
         },
         /**
          * post actions
@@ -111,7 +141,7 @@
             });
             //toggle post comments
             $(o.posts).on('click', o.cmp_s, function(){
-                $(this).closest('.post').find('.post-comments').toggle(400);
+                $(this).closest('.post').find(o.cmp_p).toggle(400);
             });
             //show comment edit form
             $(o.posts).on('click', o.cmp_e, function(){
@@ -124,8 +154,26 @@
             //delete comment
             $(o.posts).on('click', o.cmp_d, function(){
                 if(confirm('This action cannot be undone!\nContinue ?')){
-                    _this.delete_comment($(this).data('comment-id'));
+                    _this.delete_comment($(this).data('post-id'), $(this).data('comment-id'));
                 }
+            });
+            //expand all comments
+            $('#buttons').on('click', o.cmp_ex, function(){
+                o.expand = true;
+                $(o.posts).find(o.cmp_p).toggle(o.expand);
+                $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
+                $(this).find('span').text('Collapse all comments');
+                $(this).removeClass('btn-outline-primary').addClass('btn-outline-warning');
+                $(this).attr('id', o.cmp_cl.substring(1));
+            });
+            //collapse all comments
+            $('#buttons').on('click', o.cmp_cl, function(){
+                o.expand = false;
+                $(o.posts).find(o.cmp_p).toggle(o.expand);
+                $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
+                $(this).find('span').text('Expand all comments');
+                $(this).removeClass('btn-outline-warning').addClass('btn-outline-primary');
+                $(this).attr('id', o.cmp_ex.substring(1));
             });
         },
         /**
@@ -134,9 +182,11 @@
         bind_scroll: function(){
             var _this=this,o=_this.option;
             $(o.pc).scroll(function () {
-                var ph = $(o.posts).height(), h = $(this).height(), scroll = $(this).scrollTop();
-                //got top
-                if(ph - scroll == h){
+                var ph = Math.round(Number($(o.posts).outerHeight(), 10)),
+                    h = Math.round(Number($(this).height(), 10)),
+                    scroll = Math.round(Number($(this).scrollTop(), 10));
+                //got bottom
+                if(ph - scroll == h || ph - scroll == h + 1){
                     _this.is_loader('show');
                     _this.get_page();
                 } else {
@@ -149,7 +199,7 @@
          * load posts by page
          * @param page
          */
-        get_page: function(page){
+        get_page: debounce(function(page){
             var _this=this,o=_this.option, action;
             action = $.ajax({
                 url: o.url,
@@ -162,13 +212,14 @@
                     if(json['html']!=''){
                         $(o.posts).append(json['html']);
                         o.page++;
+                        $(o.posts).find(o.cmp_p).toggle(o.expand);
                     }
                 })
                 .fail(function( jqXHR, textStatus){
                     console.error(textStatus);
                 });
             _this.is_loader('hide');
-        },
+        }, 500),
         /**
          * show or hide loaders
          * @param action
@@ -208,7 +259,7 @@
                 .fail(function( jqXHR, textStatus){
                     console.error(textStatus);
                 });
-            $('#post_'+post_id).find('.post-comments').toggle(true);
+            $('#post_'+post_id).find(o.cmp_p).toggle(true);
         },
         /**
          * publish new comment
@@ -218,7 +269,7 @@
             b = $(o.wrap).find('#comment_body').val();
             post_id = $(o.wrap).find('input[name="post_id"]').val();
             parent_id = $(o.wrap).find('input[name="parent_id"]').val();
-            level = $(o.wrap).find('input[name="level"]').val();
+            level = Number($(o.wrap).find('input[name="level"]').val(), 10);
             if(b != '' && post_id != 0 && parent_id >= 0 && level > 0){
                 action = $.ajax({
                     url: o.url,
@@ -231,8 +282,48 @@
                         if(json['status']){
                             _this.show_alerts(o.txt_cs, 'alert-success');
                             _this.hide_form();
-                            $('#comments_'+post_id).append(json['html']);
+                            var post_block = '#post_' + post_id;
+                            //if level 1 comment
+                            if(parent_id==0){
+                                $('#comments_'+post_id).append(json['html']);
+                            //if lower level comments
+                            } else {
+                                var parent = $('#comment_' + parent_id),
+                                    child = parent.nextUntil('.comment-level-1'),
+                                    cl = child.length;
+                                //if parent comment has children - search last on this level
+                                if(cl){
+                                    var last = parent;
+                                    child.each(function(){
+                                        var curr_level = Number($(this).find('.comment_comment').data('level') , 10);
+                                        if(curr_level > (level - 1)){
+                                            last = $(this);
+                                        } else {
+                                            return false;
+                                        }
+                                    });
+                                    last.after(json['html']);
+                                //if no children
+                                } else {
+                                    parent.after(json['html']);
+                                }
+                                $(window).scrollTop($('#comment_'+json['message']).position().top);
+                            }
+                            //update comments counter
+                            if($(post_block).find('.comments-count-block').length){
+                                var c = Number( $(post_block).find(o.cm_count).text() , 10);
+                                $(post_block).find(o.cm_count).text(c+1);
+                            //if no counter - create it
+                            } else {
+                                var h = '&nbsp;|&nbsp;'
+                                    +'<small class="comments-count-block">Comments: <span class="comments-count">1</span></small> '
+                                    +' <button class="comments_show btn btn-outline-info btn-sm" data-post-id="' + post_id + '" title="Show comments">'
+                                    +'<i class="fa fa-comments"></i>'
+                                    +'</button>';
+                                $(post_block).find('.created').after(h);
+                            }
                         } else {
+                            //return form validation error
                             console.error(json['message']);
                             for(var i in json['error']){
                                 if (!json['error'].hasOwnProperty(i)){ continue;}
@@ -248,7 +339,7 @@
                 var elm, err;
                 if(b ==''){
                     elm = $(o.wrap).find('.error_body');
-                    err = 'Post body is required!';
+                    err = 'Comment body is required!';
                     _this.show_errors(elm, err);
                 }
             }
@@ -325,9 +416,10 @@
         },
         /**
          * delete comment
+         * @param $post_id
          * @param id
          */
-        delete_comment: function(id){
+        delete_comment: function($post_id, id){
             var _this=this,o=_this.option, action;
             if(typeof(id) == 'undefined' || id ==''){
                 console.error('cannot delete - not isset post id');
@@ -344,6 +436,16 @@
                     if(json['status']){
                         _this.show_alerts(o.txt_cd, 'alert-success');
                         $('#comment_'+id).remove();
+                        var post_block = '#post_' + $post_id;
+                        if($(post_block).find('.comments-count-block').length){
+                            var c = Number( $(post_block).find(o.cm_count).text() , 10);
+                            if(c == 1){
+                                $(post_block).find('.comments-count-block').remove();
+                                $(post_block).find('.comments_show').remove();
+                            } else {
+                                $(post_block).find(o.cm_count).text(c-1);
+                            }
+                        }
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }
@@ -354,27 +456,6 @@
                 });
         },
         //POSTS FUNCTIONS
-        /**
-         * reload posts after some action with posts
-         */
-        reload_posts_list: function(){
-            var _this=this,o=_this.option, action;
-            o.page = 1;
-            action = $.ajax({
-                url: o.url,
-                dataType: 'json',
-                type: 'post',
-                data: {'type':'posts','action':'list', 'page': o.page}
-            });
-            action
-                .done(function(json){
-                    $(o.posts).html(json['html']);
-                })
-                .fail(function(jqXHR, textStatus){
-                    console.error(textStatus);
-                });
-            $(o.pc).scrollTop(0);
-        },
         /**
          * show new post form
          */
@@ -417,7 +498,7 @@
                         if(json['status']){
                             _this.show_alerts(o.txt_ps, 'alert-success');
                             _this.hide_form();
-                            _this.reload_posts_list();
+                            $(o.posts).prepend(json['html']);
                         } else {
                             console.error(json['message']);
                             for(var i in json['error']){
@@ -472,22 +553,22 @@
          * edit post
          */
         edit_post: function () {
-            var _this=this,o=_this.option,action, b, p;
-            p = $(o.wrap).find('#post_id').val();
+            var _this=this,o=_this.option,action, b, id;
+            id = $(o.wrap).find('#post_id').val();
             b = $(o.wrap).find('#post_body').val();
-            if(p > 0  && b != ''){
+            if(id > 0  && b != ''){
                 action = $.ajax({
                     url: o.url,
                     dataType: 'json',
                     type: 'post',
-                    data: {'type':'posts','action':'update','post_id':p,'body':b}
+                    data: {'type':'posts','action':'update','post_id':id,'body':b}
                 });
                 action
                     .done(function(json){
                         if(json['status']){
                             _this.show_alerts(o.txt_pe, 'alert-success');
                             _this.hide_form();
-                            _this.reload_posts_list();
+                            $('#post_'+id).find('.post-text').html(b);
                         } else {
                             console.error(json['message']);
                             for(var i in json['error']){
@@ -529,7 +610,7 @@
                 .done(function(json){
                     if(json['status']){
                         _this.show_alerts(o.txt_pd, 'alert-success');
-                        _this.reload_posts_list();
+                        $('#post_'+id).remove();
                     } else {
                         _this.show_alerts(json['message'], 'alert-danger');
                     }

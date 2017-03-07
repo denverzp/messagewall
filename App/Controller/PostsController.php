@@ -128,9 +128,16 @@ class PostsController extends Controller
 
             $post_id = $posts->addPost($data);
 
+            //render one post
+            $template = new Template();
+
+            $template->data['curr_user'] = $this->isUserId();
+            $template->data['post'] = $posts->getPost($post_id);
+
             $json = [
                 'status' => true,
                 'message' => $post_id,
+                'html' => $template->fetch('post'),
             ];
         } else {
             $json['error'] = $this->error;

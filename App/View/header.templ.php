@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="<?php echo HTTP_SERVER ?>favicon.ico">
 
-    <title>My board</title>
+    <title>Board</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="<?php echo HTTP_SERVER ?>css/bootstrap.min.css">
@@ -20,13 +20,13 @@
     <div class="bg-inverse" id="navbarHeader">
       <div class="container">
         <div class="row">
-          <div class="col-sm-8 py-4">
+          <div class="col-sm-8">
             <h4 class="navbar-inverse">
 	            <a href="<?php echo HTTP_SERVER ?>" class="navbar-brand text-white">Board</a>
             </h4>
             <p class="text-muted">This is my board - and I'm going to write.</p>
           </div>
-          <div class="col-sm-4 py-4">
+          <div class="col-sm-4">
             <?php if (true === $auth) {
     ?>
             <?php if (0 !== count($userinfo)) {

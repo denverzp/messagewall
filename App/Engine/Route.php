@@ -68,10 +68,6 @@ class Route
 
                 if($this->request->post['type'] === 'comments'){
                     switch($this->request->post['action']){
-                        case 'list':
-                            $this->route = 'CommentsController@index';
-                            break;
-
                         case 'create':
                             $this->route = 'CommentsController@create';
                             break;

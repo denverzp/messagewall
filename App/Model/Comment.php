@@ -55,6 +55,53 @@ class Comment extends Model
             }
         }
 
+        return $this->getTreeViewComments($result);
+    }
+
+    /**
+     * sort comments for tree-view.
+     *
+     * @param array $comments
+     */
+    private function getTreeViewComments(array $comments)
+    {
+        $result = [];
+
+        //sort by parent
+        foreach ($comments as $comment) {
+            $result[$comment['parent_id']][] = $comment;
+        }
+
+        //final sort
+        return $this->getCommentChildren(0, $result);
+    }
+
+    /**
+     * Recursive set tree for comments.
+     *
+     * @param $parent_id
+     * @param array $comments
+     *
+     * @return array
+     */
+    private function getCommentChildren($parent_id, array $comments)
+    {
+        $result = [];
+
+        if(true === array_key_exists($parent_id, $comments)){
+            foreach ($comments[$parent_id] as $comment) {
+                $result[] = $comment;
+
+                if(true === array_key_exists($comment['id'], $comments)){
+                    $childrens = $this->getCommentChildren($comment['id'], $comments);
+
+                    if(0 !== count($childrens)){
+                        $result = array_merge($result, $childrens);
+                    }
+                }
+            }
+        }
+
         return $result;
     }
 

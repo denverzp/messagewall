@@ -15,17 +15,6 @@ class CommentsController extends Controller
 {
     use Strings, Users;
 
-    public function index()
-    {
-        if(true === array_key_exists('id', $this->request->post)){
-            $post_id = (int) $this->request->post['id'];
-
-            $comment = new Comment($this->registry);
-
-            $comments = $comment->getCommentsByPost($post_id);
-        }
-    }
-
     /**
      * show new comment form.
      */
@@ -107,6 +96,9 @@ class CommentsController extends Controller
         $this->jsonAnswer($json);
     }
 
+    /**
+     * get comment update form.
+     */
     public function edit()
     {
         $json = [
@@ -141,6 +133,9 @@ class CommentsController extends Controller
         $this->jsonAnswer($json);
     }
 
+    /**
+     *  update comment.
+     */
     public function update()
     {
         $json = [

@@ -12,7 +12,7 @@
 				<input type="hidden" name="post_id" value="<?php echo $post_id ?>">
 				<input type="hidden" name="parent_id" value="<?php echo $parent_id ?>">
 				<button class="btn" type="button" id="cancel_comment_btn">Cancel</button>
-				<button class="btn btn-primary" type="button" id="edit_comment_btn">Publish</button>
+				<button class="btn btn-primary" type="button" id="edit_comment_btn">Change</button>
 			</div>
 		</div>
 	</form>
