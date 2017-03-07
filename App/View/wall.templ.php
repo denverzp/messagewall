@@ -8,10 +8,10 @@
 			<div class="col-12 actions">
 				<?php if($auth){ ?>
 				<div id="buttons">
-					<button id="expand_all_comment" class="btn btn-outline-primary">
+					<button id="expand_all_comment" class="btn btn-outline-primary btn-sm">
 						<i class="fa fa-expand"></i> <span>Show all comments</span>
 					</button>
-					<button id="show_post_btn" class="btn btn-outline-success pull-right">
+					<button id="show_post_btn" class="btn btn-outline-success btn-sm pull-right">
 						<i class="fa fa-plus"></i> Add post
 					</button>
 				</div>

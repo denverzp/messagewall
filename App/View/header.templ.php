@@ -31,18 +31,23 @@
     ?>
             <?php if (0 !== count($userinfo)) {
         ?>
-		            <div class="user-info">
-			            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
-			            <h5 class="text-white"><?php echo $userinfo['name'] ?></h5>
+		            <div class="user-info row">
+			            <div class="col-12 col-sm-4">
+				            <img class="img-fluid rounded" src="<?php echo $userinfo['image'] ?>" alt="<?php echo $userinfo['name'] ?>">
+			            </div>
+			            <div class="col-6 col-sn-8">
+				            <h5 class="text-white"><?php echo $userinfo['name'] ?></h5>
+				            <p>
+					            <a class="text-white" href="<?php echo HTTP_SERVER ?>?logout">
+						            Logout
+						            <i class="fa fa-sign-out" aria-hidden="true"></i>
+					            </a>
+				            </p>
+			            </div>
 		            </div>
             <?php 
     } ?>
-	            <p>
-		            <a class="text-white" href="<?php echo HTTP_SERVER ?>?logout">
-			            Logout
-			            <i class="fa fa-sign-out" aria-hidden="true"></i>
-		            </a>
-	            </p>
+
             <?php 
 } else {
     ?>

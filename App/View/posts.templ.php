@@ -44,14 +44,14 @@
 					<div class="post-comment comment-level-<?php echo $comment['level'] ?>" id="comment_<?php echo $comment['id'] ?>">
 						<p class="comment-text"><?php echo $comment['body'] ?></p>
 						<div class="row">
-							<div class="post-comment-info col-9">
+							<div class="post-comment-info col-6">
 								<p class="text-left">
 									<small><?php echo $comment['username'] ?></small>
 									&nbsp;|&nbsp;
 									<small><?php echo $comment['created_at'] ?></small>
 								</p>
 							</div>
-							<div class="post-comment-edit col-3">
+							<div class="post-comment-edit col-6">
 								<div class="post-comment-edit-buttons text-right">
 								<?php if((int) $curr_user){ ?>
 									<button class="comment_comment btn btn-outline-success btn-sm" data-post-id="<?php echo $comment['post_id'] ?>" data-parent-id="<?php echo $comment['id'] ?>" data-level="<?php echo $comment['level'] ?>" title="Comment">
