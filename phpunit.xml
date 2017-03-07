@@ -20,7 +20,7 @@
         </whitelist>
     </filter>
     <php>
-        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_HOST" value="192.168.1.10"/>
         <env name="DB_USERNAME" value="messagewall_test"/>
         <env name="DB_PASSWORD" value="ZgiatfcXwQJ4Q4IfQAmb"/>
         <env name="DB_DATABASE" value="messagewall_testing"/>
