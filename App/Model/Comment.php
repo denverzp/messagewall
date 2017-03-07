@@ -63,7 +63,7 @@ class Comment extends Model
      *
      * @param array $comments
      */
-    private function getTreeViewComments(array $comments)
+	protected function getTreeViewComments(array $comments)
     {
         $result = [];
 
@@ -84,7 +84,7 @@ class Comment extends Model
      *
      * @return array
      */
-    private function getCommentChildren($parent_id, array $comments)
+    protected function getCommentChildren($parent_id, array $comments)
     {
         $result = [];
 

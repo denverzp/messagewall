@@ -219,7 +219,7 @@ class CommentsController extends Controller
     /**
      * @return bool
      */
-    private function validate()
+    protected function validate()
     {
         $error = [];
 
