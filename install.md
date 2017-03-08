@@ -20,7 +20,7 @@ Web-Server - Apache, Nginx
 
 - Импортировать в базу дамп "install.sql"
 
-- Установить зависимости - "composer update --no-dev"
+- Установить зависимости - "composer update --no-dev --optimize-autoloader"
 
 - Для успешной авторизации - создать проект (Google API project) - https://developers.google.com/api-client-library/php/start/get_started
   В результате - необходимо получить файл .json - с данными проекта.
