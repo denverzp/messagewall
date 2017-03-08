@@ -48,7 +48,7 @@ define('scroll',['jquery','base'],function($, base) {
          * load posts by page
          * @param page
          */
-        get_page: debounce(function(page){
+        get_page: debounce(function(){
             var _this=this,o=base.option, action;
             action = $.ajax({
                 url: o.url,
