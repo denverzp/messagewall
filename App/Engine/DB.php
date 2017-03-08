@@ -7,6 +7,9 @@ namespace App\Engine;
  */
 class DB
 {
+	/**
+	 * @var \mysqli
+	 */
     private $link;
     private $log;
 
@@ -20,13 +23,16 @@ class DB
     {
         $this->log = new Log('db.log');
 
-        $this->link = new \mysqli($hostname, $username, $password, $database);
+	    try {
 
-        if (mysqli_connect_error()) {
-            $this->log->write('Error: Could not make a database link (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+	        $this->link = new \mysqli($hostname, $username, $password, $database);
 
-            die('Could not make a database connection...');
-        }
+	    } catch (\Exception $e){
+
+		    $this->log->write('Error: Could not make a database link ' . $e->getMessage());
+
+		    throw new \ErrorException('Could not make a database connection...');
+	    }
 
         $this->link->set_charset('utf8');
 

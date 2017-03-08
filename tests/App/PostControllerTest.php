@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\App;
 
 use App\Controller\PostsController;
-
-require_once ('TestCase.php');
+use Tests\TestCase;
 
 /**
  * Only for access to protected method

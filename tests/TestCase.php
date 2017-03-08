@@ -21,9 +21,9 @@ use PHPUnit\Framework\TestCase  as BaseTestCase;
  */
 class TestCase extends BaseTestCase
 {
-	public $registry;
+	protected $registry;
 
-	public function setUp()
+	protected function setUp()
 	{
 		//Registry
 		$registry = new \App\Engine\Registry();

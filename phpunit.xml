@@ -8,10 +8,13 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         stderr="true">
+         stderr="false">
     <testsuites>
-        <testsuite name="wall">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="Engine">
+            <directory suffix="Test.php">tests/Engine</directory>
+        </testsuite>
+        <testsuite name="App">
+            <directory suffix="Test.php">tests/App</directory>
         </testsuite>
     </testsuites>
     <filter>

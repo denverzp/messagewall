@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\App;
 
 use App\Model\Comment;
+use Tests\TestCase;
 
-require_once ('TestCase.php');
 
 /**
  * Only for access to protected method
@@ -40,12 +40,28 @@ class testComment extends Comment
 class CommentsTest extends TestCase
 {
 	/**
+	 * @var testComment
+	 */
+	protected $fixture;
+
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->fixture = new testComment($this->registry);
+	}
+
+	protected function tearDown()
+	{
+		$this->fixture = NULL;
+	}
+
+
+	/**
 	 *
 	 */
 	public function testGetCommentChildren()
 	{
-		$comment = new testComment($this->registry);
-
 		//give
 		$comments = [
 			0 => [
@@ -78,7 +94,7 @@ class CommentsTest extends TestCase
 		];
 
 		//when
-		$sort = $comment->testGetCommentChildren(0, $comments);
+		$sort = $this->fixture->testGetCommentChildren(0, $comments);
 
 		//then
 		$this->assertEquals($sort, $expected_comments);
@@ -91,8 +107,6 @@ class CommentsTest extends TestCase
 	 */
 	public function testGetTreeViewComments()
 	{
-		$comment = new testComment($this->registry);
-
 		//give
 		$comments = [
 			0 => ['id' => 7,'parent_id' =>	6, 'name' => 'seven',   'level'=> 4],
@@ -115,7 +129,7 @@ class CommentsTest extends TestCase
 		];
 
 		//when
-		$sort = $comment->testGetTreeViewComments($comments);
+		$sort = $this->fixture->testGetTreeViewComments($comments);
 
 		//then
 		$this->assertEquals($sort, $expected_comments);
