@@ -8,7 +8,11 @@ define('DIR_APPLICATION', DIR_ROOT . '/App/');
 define('DIR_TEMPLATE', DIR_ROOT . 'App/View/');
 define('DIR_LOGS', DIR_ROOT . 'logs/');
 
-//database
+//GOOGLE API json file
+define('API_NAME', 'StudyOAuth_site');
+define('API_JSON', 'client.apps.googleusercontent.com.json');
+
+//database settings
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'messagewall');
 define('DB_PASSWORD', 'ZgiatfcXwQJ4Q4IfQAmb');

@@ -18,17 +18,9 @@ class GoogleAuth extends Model
     {
         $client = new Google_Client();
 
-//        $client->setApplicationName($this->config->get('google_project_name')); //"StudyOAuth_site"
-//
-//        $client->setAuthConfig(DIR_ROOT . 'secret/' . $this->config->get('google_project_json')); //client.apps.googleusercontent.com.json
-//
-//	    $client->setDeveloperKey($this->config->get('google_project_code')); //"studyoauth"
+        $client->setApplicationName(API_NAME);
 
-        $client->setApplicationName('StudyOAuth_site');
-
-        $client->setAuthConfig(DIR_ROOT . 'secret/client.apps.googleusercontent.com.json');
-
-        $client->setDeveloperKey('studyoauth');
+        $client->setAuthConfig( DIR_ROOT . 'secret/' . API_JSON);
 
         $client->addScope(Google_Service_Plus::PLUS_LOGIN);
         $client->addScope(Google_Service_Plus::PLUS_ME);
